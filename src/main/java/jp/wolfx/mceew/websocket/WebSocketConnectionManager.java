@@ -9,18 +9,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.function.Consumer;
+import org.slf4j.Logger;
 
 /**
  * Owns the single Wolfx WebSocket connection and all of its reconnect state.
  */
 public final class WebSocketConnectionManager {
     static final String JMA_QUERY = "query_jmaeqlist";
-    static final String CENC_QUERY = "query_cenceqlist";
     static final long BOOTSTRAP_QUERY_INTERVAL_MILLIS = 1200L;
-    static final List<String> BOOTSTRAP_QUERIES = List.of(JMA_QUERY, CENC_QUERY);
+    static final List<String> BOOTSTRAP_QUERIES = List.of(JMA_QUERY);
 
     @FunctionalInterface
     public interface Connector {
@@ -243,13 +241,13 @@ public final class WebSocketConnectionManager {
             if (!isCurrentGeneration(token) || scheduledReconnect != null) {
                 return;
             }
-            logger.warning("Trying to reconnect to WebSocket API in "
+            logger.warn("Trying to reconnect to WebSocket API in "
                     + reconnectDelay + " " + reconnectDelayUnit.toString().toLowerCase() + ".");
             try {
                 scheduledReconnect = delayScheduler.schedule(
                         () -> runReconnect(token), reconnectDelay, reconnectDelayUnit);
             } catch (Throwable error) {
-                logger.log(Level.WARNING, "Unable to schedule WebSocket reconnect.", error);
+                logger.warn("Unable to schedule WebSocket reconnect.", error);
             }
         }
     }
@@ -348,10 +346,10 @@ public final class WebSocketConnectionManager {
         Throwable handshake = findCause(error, WebSocketHandshakeException.class);
         if (handshake != null) {
             HttpResponse<?> response = ((WebSocketHandshakeException) handshake).getResponse();
-            logger.warning(message + " WebSocket handshake HTTP status: "
+            logger.warn(message + " WebSocket handshake HTTP status: "
                     + response.statusCode() + ", HTTP version: " + response.version() + ".");
         }
-        logger.log(Level.WARNING, message, unwrap(error));
+        logger.warn(message, unwrap(error));
     }
 
     private Throwable unwrap(Throwable error) {
@@ -438,7 +436,7 @@ public final class WebSocketConnectionManager {
                     }
                 }
             } catch (Throwable error) {
-                logger.log(Level.WARNING,
+                logger.warn(
                         "Failed to process a WebSocket API message; the message was ignored.",
                         error);
             }
@@ -461,7 +459,7 @@ public final class WebSocketConnectionManager {
             if (statusCode == WebSocket.NORMAL_CLOSURE) {
                 logger.info("WebSocket API connection closed normally.");
             } else {
-                logger.warning("WebSocket API connection closed unexpectedly (status "
+                logger.warn("WebSocket API connection closed unexpectedly (status "
                         + statusCode + "): " + reason);
             }
             scheduleReconnect(token);

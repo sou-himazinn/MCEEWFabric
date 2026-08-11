@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "mceew",
+  "version": "${version}",
+  "name": "MCEEW",
+  "description": "Japan Earthquake Early Warning notifications for Fabric singleplayer and servers.",
+  "authors": [
+    "TenkyuChimata",
+    "MCEEW contributors"
+  ],
+  "contact": {
+    "homepage": "https://github.com/TenkyuChimata/MCEEW",
+    "sources": "https://github.com/TenkyuChimata/MCEEW"
+  },
+  "license": "GPL-3.0-only",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "jp.wolfx.mceew.MceewMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "fabric-api": "*",
+    "minecraft": "1.21.10",
+    "java": ">=21"
+  }
+}

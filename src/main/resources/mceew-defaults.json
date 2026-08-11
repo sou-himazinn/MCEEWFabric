@@ -1,0 +1,16 @@
+{
+  "language": "ja_jp",
+  "webSocketUrl": "wss://ws-api.wolfx.jp/all_eew",
+  "enableEew": true,
+  "enableEarthquakeInfo": true,
+  "broadcastChat": true,
+  "showTitle": true,
+  "playSound": true,
+  "freshAlertMinutes": 10,
+  "timeFormat": "yyyy/MM/dd HH:mm:ss",
+  "sound": {
+    "id": "minecraft:block.note_block.pling",
+    "volume": 1.0,
+    "pitch": 1.0
+  }
+}

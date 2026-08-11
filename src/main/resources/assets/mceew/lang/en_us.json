@@ -1,0 +1,12 @@
+{
+  "modmenu.descriptionTranslation.mceew": "Shows Japan Earthquake Early Warning notifications.",
+  "mceew.name": "MCEEW",
+  "mceew.command.version": "MCEEW v%s",
+  "mceew.command.help.info": "/eew info - Show the latest earthquake information",
+  "mceew.command.help.test": "/eew test forecast|alert - Send a test notification",
+  "mceew.command.help.reload": "/eew reload - Reload the configuration",
+  "mceew.command.reloaded": "Configuration reloaded.",
+  "mceew.command.reload_failed": "Configuration reload failed. Check the log.",
+  "mceew.command.no_info": "Earthquake information has not been received yet.",
+  "mceew.notice.test": "This is an Earthquake Early Warning test."
+}

@@ -1,60 +1,154 @@
-# MCEEW
+# MCEEW Fabric
 
-A real-time Earthquake Early Warning (EEW) plugin for Minecraft servers.
+[![Build](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml/badge.svg)](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml)
+[![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)](LICENSE)
+
+English | [日本語](README.ja.md)
+
+MCEEW is a Minecraft Fabric mod that delivers Japan Meteorological Agency
+(JMA) earthquake early warning (EEW) and earthquake information to players in
+singleplayer worlds and Fabric servers.
+
+It connects to the configured WebSocket endpoint, filters stale EEW reports,
+and notifies players through Minecraft chat, titles, and sounds. The current
+Fabric version is focused on Japan JMA data.
 
 ## Features
 
-* **Supports Spigot/Paper/Folia 1.13.2+**
-* **Low-latency WebSocket connection**
-* **Receives Japan JMA EEW alerts**
-* **Receives final reports from JMA**
-* **Receives final reports from CENC**
-* **Receives EEW alerts from CENC, China**
-* **Receives EEW alerts from Taiwan and Fujian**
-* **Receives EEW alerts from Sichuan, China**
-* **Receives EEW alerts from Chongqing, China**
-* **Broadcasts messages to chat**
-* **Broadcasts messages to screen titles**
-* **Sends alerts when an earthquake is detected**
-* **Allows manual retrieval of earthquake information**
-* **Supports permission-based notification control**
-* **Customizable broadcast messages**
-* **Customizable alert sounds**
-* **Customizable EEW toggles**
-* **Supports EEW test transmissions**
+- Japan JMA EEW notifications
+- Japan JMA earthquake information and `/eew info`
+- Chat, title, and sound notifications
+- Japanese (`ja_jp`) and English (`en_us`) messages
+- Configurable notification and sound settings
+- Automatic WebSocket reconnects
+- `/eew` and `/mceew` command aliases
+- JSON configuration at `config/mceew.json`
 
-## Requirements
+## Compatibility
 
-* Java 11 or newer for MCEEW itself
-* Spigot or Paper 1.13.2+, or Folia 1.19.4+
+| Component | Supported version |
+| --- | --- |
+| Minecraft | 1.21.10 |
+| Fabric Loader | 0.19.3 or newer |
+| Fabric API | Fabric API for Minecraft 1.21.10 |
+| Java | 21 or newer |
 
-Newer server releases can require a newer Java runtime than MCEEW. Use the Java
-version required by the server when it is higher than Java 11.
+This branch targets Fabric singleplayer and dedicated servers. It does not
+include the former Spigot, Paper, or Folia implementation, or notifications
+for CENC, Sichuan, Chongqing, Taiwan, or Fujian data sources.
+
+## Installation
+
+1. Install Minecraft 1.21.10, Fabric Loader 0.19.3 or newer, and the matching
+   Fabric API.
+2. Download the MCEEW Fabric `.jar` from the repository's Releases page, or
+   [build it from source](#build-from-source).
+3. Put the MCEEW `.jar` and Fabric API `.jar` in the `mods` directory.
+4. Start the game or server once. MCEEW will create `config/mceew.json`.
+
+For a dedicated server, install MCEEW on the server. The notifications use
+vanilla Minecraft packets, so players do not need to install MCEEW on their
+clients.
+
+## Build From Source
+
+The project includes the Gradle wrapper and requires Java 21 or newer.
+
+```sh
+bash ./gradlew build
+```
+
+On Windows, use:
+
+```powershell
+.\gradlew.bat build
+```
+
+The built mod JAR is written to `build/libs/`.
+
+To run the test suite:
+
+```sh
+bash ./gradlew test
+```
 
 ## Commands
 
-* View available commands: `/eew`
-* Retrieve latest earthquake info: `/eew info`
-* Run an EEW test alert: `/eew test` (admin only)
-* Reload plugin configuration: `/eew reload` (admin only)
+`/mceew` is an alias for `/eew`.
 
-## Downloads
+| Command | Permission | Description |
+| --- | --- | --- |
+| `/eew` | Everyone | Show the command help |
+| `/eew info` | Everyone | Show the latest received earthquake information |
+| `/eew test forecast` | Permission level 2 | Send a forecast test notification |
+| `/eew test alert` | Permission level 2 | Send a warning test notification |
+| `/eew reload` | Permission level 2 | Reload `config/mceew.json` and reconnect |
 
-* [SpigotMC (Recommend)](https://www.spigotmc.org/resources/mceew-earthquake-early-warning.104549/)
-* [GitHub Releases](https://github.com/TenkyuChimata/MCEEW/releases/latest)
+`/eew test` without a subcommand is equivalent to
+`/eew test forecast`.
 
-## Screenshots
+## Configuration
 
-![1.png](https://s2.loli.net/2024/02/29/IwmO7C4foXhk2ZP.png)
-![2.png](https://s2.loli.net/2024/02/29/G9EjJDSUtwyVgMQ.png)
-![3.png](https://s2.loli.net/2024/02/29/kUsoMQPlBz98DcW.png)
-![4.png](https://s2.loli.net/2024/02/29/ncFAuWD4wEsqIah.png)
-![5.png](https://s2.loli.net/2024/04/03/QltcV4RZfe8kwIm.png)
-![6.png](https://s2.loli.net/2025/09/13/GNYrfU8JQTP7IdE.png)
-![7.png](https://files.seeusercontent.com/2026/08/09/8gkT/2026-08-09_233526.png)
-![8.png](https://s2.loli.net/2024/02/29/OSGKuyq9zE8ChTY.png)
-![9.png](https://s2.loli.net/2024/02/29/tuXgnVqkrxQoYGJ.png)
+The configuration file is created at `config/mceew.json` on first launch. The
+default configuration is:
 
-## Bstats
+```json
+{
+  "language": "ja_jp",
+  "webSocketUrl": "wss://ws-api.wolfx.jp/all_eew",
+  "enableEew": true,
+  "enableEarthquakeInfo": true,
+  "broadcastChat": true,
+  "showTitle": true,
+  "playSound": true,
+  "freshAlertMinutes": 10,
+  "timeFormat": "yyyy/MM/dd HH:mm:ss",
+  "sound": {
+    "id": "minecraft:block.note_block.pling",
+    "volume": 1.0,
+    "pitch": 1.0
+  }
+}
+```
 
-[![Bstats](https://bstats.org/signatures/bukkit/MCEEW.svg)](https://bstats.org/plugin/bukkit/MCEEW/17261)
+| Key | Description |
+| --- | --- |
+| `language` | Message language: `ja_jp` or `en_us`. |
+| `webSocketUrl` | WebSocket endpoint used to receive data. The default is the Wolfx API endpoint shown above. |
+| `enableEew` | Enable JMA EEW notifications. |
+| `enableEarthquakeInfo` | Enable receiving and automatically notifying new JMA earthquake information. |
+| `broadcastChat` | Send EEW details to player chat. |
+| `showTitle` | Show EEW information as a title and subtitle. |
+| `playSound` | Play the configured sound for an EEW report. |
+| `freshAlertMinutes` | Maximum age, in minutes, for an EEW report to be displayed. |
+| `timeFormat` | Java `DateTimeFormatter` pattern used for displayed times. Times are interpreted in Japan Standard Time. |
+| `sound.id` | Minecraft sound identifier. |
+| `sound.volume` | Sound volume. |
+| `sound.pitch` | Sound pitch. |
+
+After editing the file, run `/eew reload` as an operator, or restart the
+server. If the JSON is invalid, MCEEW keeps a timestamped backup and writes a
+fresh default configuration.
+
+## Data Source and Limitations
+
+By default, MCEEW connects to `wss://ws-api.wolfx.jp/all_eew`. This is an
+external service and is not operated by this repository. Availability,
+latency, message formats, and usage terms may change independently of MCEEW.
+You can change the endpoint with `webSocketUrl` if you operate a compatible
+service.
+
+MCEEW is a convenience notification tool, not an official JMA application and
+not a life-safety system. Do not use Minecraft notifications as a substitute
+for official warnings, emergency instructions, or evacuation guidance.
+
+## Contributing
+
+Bug reports, improvements, and focused pull requests are welcome. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the development setup and pull request
+guidelines.
+
+## License
+
+MCEEW is distributed under the GNU General Public License v3.0 only. See
+[LICENSE](LICENSE).

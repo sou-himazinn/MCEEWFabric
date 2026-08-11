@@ -1,0 +1,12 @@
+{
+  "modmenu.descriptionTranslation.mceew": "日本向け緊急地震速報を表示します。",
+  "mceew.name": "MCEEW",
+  "mceew.command.version": "MCEEW v%s",
+  "mceew.command.help.info": "/eew info - 最新の地震情報を表示",
+  "mceew.command.help.test": "/eew test forecast|alert - テスト通知を送信",
+  "mceew.command.help.reload": "/eew reload - 設定を再読み込み",
+  "mceew.command.reloaded": "設定を再読み込みしました。",
+  "mceew.command.reload_failed": "設定の再読み込みに失敗しました。ログを確認してください。",
+  "mceew.command.no_info": "地震情報はまだ取得されていません。",
+  "mceew.notice.test": "これは緊急地震速報のテストです。"
+}
