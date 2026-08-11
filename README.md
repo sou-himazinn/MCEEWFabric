@@ -1,6 +1,6 @@
 # MCEEW Fabric
 
-[![Build](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml/badge.svg)](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml)
+[![Build](https://github.com/sou-himazinn/MCEEWFabric/actions/workflows/build.yml/badge.svg)](https://github.com/sou-himazinn/MCEEWFabric/actions/workflows/build.yml)
 [![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)](LICENSE)
 
 English | [日本語](README.ja.md)

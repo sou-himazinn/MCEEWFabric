@@ -26,7 +26,7 @@ On Windows, use `gradlew.bat` instead of `./gradlew`.
 - Do not commit generated files from `build/`, local toolchains, or IDE metadata.
 - Describe the user-visible behavior and verification steps in the pull request.
 
-Before opening a pull request, run `./gradlew build` locally and make sure the
+Before opening a pull request, run `bash ./gradlew build` locally and make sure the
 working tree does not contain generated artifacts.
 
 ## Scope Notes

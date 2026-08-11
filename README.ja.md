@@ -1,6 +1,6 @@
 # MCEEW Fabric
 
-[![Build](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml/badge.svg)](https://github.com/TenkyuChimata/MCEEW/actions/workflows/build.yml)
+[![Build](https://github.com/sou-himazinn/MCEEWFabric/actions/workflows/build.yml/badge.svg)](https://github.com/sou-himazinn/MCEEWFabric/actions/workflows/build.yml)
 [![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)](LICENSE)
 
 [English](README.md) | 日本語
@@ -52,7 +52,7 @@ Minecraft パケットを使用するため、プレイヤー側に MCEEW を導
 Gradle Wrapper を同梱しています。Java 21 以上が必要です。
 
 ```sh
-./gradlew build
+bash ./gradlew build
 ```
 
 Windows では次を実行します。
@@ -66,7 +66,7 @@ Windows では次を実行します。
 テストを実行する場合は次のコマンドを使います。
 
 ```sh
-./gradlew test
+bash ./gradlew test
 ```
 
 ## コマンド
